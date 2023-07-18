@@ -53,3 +53,81 @@ ORDER BY MONTH(Order_created);
 -- People don't need too many aerators, I suppose.
 
 -- Ok, now let's look at the most popular month for each machine type.
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'aerator%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count DESC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'dehumidifier%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count DESC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'forklift%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count DESC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'mini%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count DESC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'pipe%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count DESC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'heater%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count DESC;
+-- Ok, looks like heaters and pipe-pressing machines are most popular in January, aerators in April, minidumpers in May, dehumidifiers in August, and forklifts in October.
+
+-- Now let's see the least popular month for each of these.
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'aerator%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count ASC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'dehumidifier%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count ASC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'forklift%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count ASC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'mini%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count ASC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'pipe%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count ASC;
+
+SELECT TOP(1) MONTH(Order_created) AS month_ordered, prod_class, COUNT(prod_class) AS machine_count
+FROM all_rentals
+WHERE prod_class LIKE 'heater%'
+GROUP BY MONTH(Order_created), prod_class
+ORDER BY machine_count ASC;
+
+
+-- Looks like aerators and minidumpers are unpopular in December, forklifts and heaters are unpopular in July, dehumidifiers and unpopular in May, and pipe pressing machines are least popular in April.
+-- Things are looking pretty seasonal!
+
