@@ -127,7 +127,67 @@ WHERE prod_class LIKE 'heater%'
 GROUP BY MONTH(Order_created), prod_class
 ORDER BY machine_count ASC;
 
-
 -- Looks like aerators and minidumpers are unpopular in December, forklifts and heaters are unpopular in July, dehumidifiers and unpopular in May, and pipe pressing machines are least popular in April.
 -- Things are looking pretty seasonal!
 
+-- OK, let's look at duration of rentals.
+-- How many items have been rented for over a year?
+SELECT COUNT(*)
+FROM all_rentals
+WHERE duration > 365;
+-- 56
+-- Out of how many rentals total?
+SELECT COUNT(*) FROM all_rentals;
+-- 33766 That's 0.17%
+
+-- Let's look at how many rentals only lasted one day.
+SELECT COUNT(*)
+FROM all_rentals
+WHERE ROUND(duration, 0) = 1;
+-- 12660 out of 33766 is 37.49%
+-- I wonder what the next biggest chunk might be.
+
+--ALTER TABLE all_rentals
+--ADD round_duration
+--AS ROUND(duration, 0);
+
+-- Here's duration by frequency.
+SELECT round_duration, COUNT(round_duration) AS freq
+FROM all_rentals
+GROUP BY round_duration
+ORDER BY freq DESC;
+
+-- Here's duration from greatest to smallest.
+SELECT round_duration
+FROM all_rentals
+GROUP BY round_duration
+ORDER BY round_duration DESC;
+-- The longest one is over 5 years!
+
+-- Let's make another column for duration in years and look at that.
+--ALTER TABLE all_rentals
+--ADD year_duration
+--AS ROUND(duration/365, 0);
+
+SELECT year_duration, COUNT(year_duration) AS freq, COUNT(year_duration)*100.0 / SUM(COUNT(year_duration)) OVER() AS percentage_of_whole
+FROM all_rentals
+GROUP BY year_duration
+ORDER BY freq DESC;
+-- So rental duration is overwhelmingly less than a year long (99.32%).
+
+-- I wonder how many of the over-a-year crowd are from the same customers..
+SELECT year_duration, Customer_ID, COUNT(Customer_ID) AS cust_count
+FROM all_rentals
+WHERE year_duration > 1
+GROUP BY year_duration, Customer_ID
+ORDER BY year_duration DESC;
+-- Ok, customer 1439778 rented 4 items out for 3 years. I wonder if it was for the same project. Let's look at the dates.
+SELECT *
+FROM all_rentals
+WHERE year_duration = 3
+AND Customer_ID = 1439778;
+-- Four pipe pressing machines. I assume they were all for the same project.
+
+
+SELECT TOP(10)*
+FROM all_rentals;
