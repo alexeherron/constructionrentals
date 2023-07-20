@@ -188,6 +188,22 @@ WHERE year_duration = 3
 AND Customer_ID = 1439778;
 -- Four pipe pressing machines. I assume they were all for the same project.
 
-
+-- Ok, let's start looking at how many of each machine is rented out on a given day.
+-- We'll begin with aerators.
 SELECT TOP(10)*
-FROM all_rentals;
+FROM aer_dates_counts;
+
+SELECT TOP(30) d.Date, a.column2 AS aer_count
+FROM dates AS d
+RIGHT JOIN aer_dates_counts AS a
+ON d.Date = a.column1
+ORDER BY aer_count DESC;
+
+SELECT a.column2 AS aer_count, COUNT(*) AS freq, COUNT(*)*100.0 / SUM(COUNT(*)) OVER() AS percentage_of_whole
+FROM dates AS d
+RIGHT JOIN aer_dates_counts AS a
+ON d.Date = a.column1
+GROUP BY a.column2
+ORDER BY freq DESC;
+-- So it looks like it's pretty rare to have more than 10 aerators rented out on any given day.
+
