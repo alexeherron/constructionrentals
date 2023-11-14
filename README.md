@@ -1,3 +1,4 @@
+![](construction.png)
 # Construction Rentals
 Gaining insights fron 16 years of construction data, using python, SQL, and Tableau.
 
